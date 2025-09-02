@@ -3,66 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sound Board</title>
+  <title>Soundbar</title>
   <style>
     body {
-      background: #9b59b6;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      gap: 20px;
+      background: #222;
+      font-family: Arial, sans-serif;
     }
-    button {
-      background: #5e2b7c;
-      color: white;
-      padding: 10px 20px;
+    #buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .btn {
+      padding: 12px 24px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
+      background: #4CAF50;
+      color: white;
       cursor: pointer;
       font-size: 16px;
+      transition: 0.3s;
     }
-    button:hover {
-      background: #3e1d56;
+    .btn:hover {
+      background: #45a049;
+    }
+    .stop {
+      background: #f44336;
+    }
+    .stop:hover {
+      background: #e53935;
     }
   </style>
 </head>
 <body>
-  <button class="btn" onclick="playSound('applause')">applause</button>
-  <button class="btn" onclick="playSound('boo')">boo</button>
-  <button class="btn" onclick="playSound('gasp')">gasp</button>
-  <button class="btn" onclick="playSound('tada')">tada</button>
-  <button class="btn" onclick="playSound('victory')">victory</button>
-  <button class="btn" onclick="playSound('wrong')">wrong</button>
-  <button class="btn" onclick="stopSound()">stop</button>
+  <div id="buttons"></div>
 
   <script>
-    const sounds = {
-      applause: new Audio('sounds/applause.mp3'),
-      boo: new Audio('sounds/boo.mp3'),
-      gasp: new Audio('sounds/gasp.mp3'),
-      tada: new Audio('sounds/tada.mp3'),
-      victory: new Audio('sounds/victory.mp3'),
-      wrong: new Audio('sounds/wrong.mp3')
-    };
+    const sounds = ["applause", "boo", "gasp", "tada", "victory", "wrong"];
+    const buttons = document.getElementById("buttons");
 
-    let currentSound = null;
+    // Create buttons for each sound
+    sounds.forEach(sound => {
+      const btn = document.createElement("button");
+      btn.classList.add("btn"); // ✅ All sound buttons have class 'btn'
+      btn.innerText = sound;
 
-    function playSound(name) {
-      if (currentSound) {
-        currentSound.pause();
-        currentSound.currentTime = 0;
-      }
-      currentSound = sounds[name];
-      currentSound.play();
-    }
+      btn.addEventListener("click", () => {
+        stopSounds();
+        const audio = document.getElementById(sound);
+        audio.play();
+      });
 
-    function stopSound() {
-      if (currentSound) {
-        currentSound.pause();
-        currentSound.currentTime = 0;
-        currentSound = null;
-      }
+      buttons.appendChild(btn);
+
+      const audio = document.createElement("audio");
+      audio.src = `sounds/${sound}.mp3`;
+      audio.id = sound;
+      document.body.appendChild(audio);
+    });
+
+    // Stop button
+    const stopBtn = document.createElement("button");
+    stopBtn.classList.add("btn", "stop"); // ✅ Stop button has both 'btn' and 'stop'
+    stopBtn.innerText = "Stop";
+
+    stopBtn.addEventListener("click", stopSounds);
+
+    buttons.appendChild(stopBtn);
+
+    function stopSounds() {
+      sounds.forEach(sound => {
+        const audio = document.getElementById(sound);
+        audio.pause();
+        audio.currentTime = 0;
+      });
     }
   </script>
 </body>
