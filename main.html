@@ -1,16 +1,69 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-	<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sound Board</title>
+  <style>
+    body {
+      background: #9b59b6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      gap: 20px;
+    }
+    button {
+      background: #5e2b7c;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #3e1d56;
+    }
+  </style>
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
+  <button onclick="playSound('applause')">applause</button>
+  <button onclick="playSound('boo')">boo</button>
+  <button onclick="playSound('gasp')">gasp</button>
+  <button onclick="playSound('tada')">tada</button>
+  <button onclick="playSound('victory')">victory</button>
+  <button onclick="playSound('wrong')">wrong</button>
+  <button onclick="stopSound()">stop</button>
 
+  <script>
+    const sounds = {
+      applause: new Audio('sounds/applause.mp3'),
+      boo: new Audio('sounds/boo.mp3'),
+      gasp: new Audio('sounds/gasp.mp3'),
+      tada: new Audio('sounds/tada.mp3'),
+      victory: new Audio('sounds/victory.mp3'),
+      wrong: new Audio('sounds/wrong.mp3')
+    };
+
+    let currentSound = null;
+
+    function playSound(name) {
+      if (currentSound) {
+        currentSound.pause();
+        currentSound.currentTime = 0;
+      }
+      currentSound = sounds[name];
+      currentSound.play();
+    }
+
+    function stopSound() {
+      if (currentSound) {
+        currentSound.pause();
+        currentSound.currentTime = 0;
+        currentSound = null;
+      }
+    }
+  </script>
 </body>
-
 </html>
